@@ -1,0 +1,43 @@
+name: Azure ML CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  ml-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure via OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install Azure ML CLI Extension
+        run: az extension add -n ml -y
+
+      - name: Configure Azure ML Defaults
+        run: |
+          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          az configure --defaults group=your-resource-group workspace=your-aml-workspace
+
+      - name: Submit Training Job to Azure ML
+        run: az ml job create --file azureml/train-job.yml --stream
+
+      - name: Register Model on Merge to Main
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          az ml model create --name "my_production_model" \
+            --path "azureml://jobs/last/outputs/artifacts/paths/outputs/" \
+            --type "custom_model"
