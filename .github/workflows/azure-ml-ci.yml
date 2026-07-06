@@ -30,7 +30,10 @@ jobs:
       - name: Configure Azure ML Defaults
         run: |
           az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          az configure --defaults group=your-resource-group workspace=your-aml-workspace
+          az configure --defaults group="learn-networking-rg" workspace="azml2"
+
+      - name: Ensure Compute Cluster Exists
+        run: az ml compute create --file azureml/create-compute.yml
 
       - name: Submit Training Job to Azure ML
         run: az ml job create --file azureml/train-job.yml --stream
