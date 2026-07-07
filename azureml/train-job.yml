@@ -2,5 +2,5 @@ $schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
 code: ../src/                        # Points to your python code folder
 command: python train.py             # The command to execute inside Azure
 environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu@latest # Or use your environment.yml
-compute: azureml:cpu-cluster         # Name of the compute cluster you created in Azure ML
+compute: azureml:aml-cluster-private       # Name of the compute cluster you created in Azure ML
 experiment_name: github-ci-training
