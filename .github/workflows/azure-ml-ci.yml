@@ -36,14 +36,24 @@ jobs:
         run: az ml compute create --file azureml/create-compute.yml
 
       - name: Submit Training Job to Azure ML
-        id: train_job
+        id: submit_job
         run: |
-          JOB_ID=$(az ml job create --file azureml/train-job.yml --stream -o json | jq -r '.name')
-          echo "job_id=$JOB_ID" >> $GITHUB_OUTPUT
+          echo "Submitting training job to Azure ML control plane..."
+          # 1. Create the job as pure JSON metadata to isolate the unique name cleanly
+          JOB_OUTPUT=$(az ml job create --file azureml/train-job.yml --output json)
+          JOB_NAME=$(echo $JOB_OUTPUT | jq -r '.name')
+          
+          # 2. Save the name into the GitHub environment variable map for the next step
+          echo "JOB_NAME=$JOB_NAME" >> $GITHUB_ENV
+          echo "Successfully created job: $JOB_NAME"
+          
+          # 3. Stream the live training logs straight to your pipeline window
+          echo "Streaming live cluster training logs..."
+          az ml job stream --name $JOB_NAME
 
       - name: Register Model on Merge to Main
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           az ml model create --name "my_production_model" \
-            --path "azureml://jobs/${{ steps.train_job.outputs.job_id }}/outputs/artifacts/paths/outputs/" \
+            --path "azureml://jobs/${{ env.JOB_NAME }}/outputs/artifacts/paths/outputs/" \
             --type "custom_model"
