@@ -5,3 +5,6 @@ size: Standard_E4ds_v4
 min_instances: 0
 max_instances: 2
 idle_time_before_scale_down: 120
+network_settings:
+  vnet_name: vnet-prod-01
+  subnet: ml-subnet
