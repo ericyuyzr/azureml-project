@@ -47,9 +47,10 @@ jobs:
           echo "JOB_NAME=$JOB_NAME" >> $GITHUB_ENV
           echo "Successfully created job: $JOB_NAME"
           
-          # 3. Stream the live training logs straight to your pipeline window
-          echo "Streaming live cluster training logs..."
-          az ml job stream --name $JOB_NAME
+      - name: Stream Training Logs
+        run: |
+          # Re-authenticate before streaming to ensure token is fresh
+          az ml job stream --name ${{ env.JOB_NAME }}
 
       - name: Register Model on Merge to Main
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
