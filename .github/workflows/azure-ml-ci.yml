@@ -30,7 +30,7 @@ jobs:
       - name: Configure Azure ML Defaults
         run: |
           az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          az configure --defaults group="learn-networking-rg" workspace="azml2"
+          az configure --defaults group="learn-networking-rg" workspace="eric-mlops-aml-dv4h2dbsbpuf6"
 
       - name: Ensure Compute Cluster Exists
         run: az ml compute create --file azureml/create-compute.yml
