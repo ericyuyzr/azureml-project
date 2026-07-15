@@ -4,6 +4,3 @@ command: python train.py             # The command to execute inside Azure
 environment: azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu@latest # Or use your environment.yml
 compute: azureml:aml-cluster-private       # Name of the compute cluster you created in Azure ML
 experiment_name: github-ci-training
-network_settings:
-  vnet_name: eric-cc-dev-bcc-mlops-vnet-01
-  subnet: eric-cc-dev-hyd-bcc-mlops-reserved-subnet
