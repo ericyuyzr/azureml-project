@@ -1,0 +1,29 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+
+type: pipeline
+
+display_name: daily-batch-inference
+
+settings:
+  default_compute: azureml:aml-cluster
+
+jobs:
+
+  inference_job:
+
+    type: command
+
+    code: ./src
+
+    command: >
+      python score.py
+      --model-path ${{inputs.model}}
+
+    inputs:
+
+      model:
+        type: uri_folder
+        path: azureml:my_production_model:1
+
+    environment:
+      azureml:AzureML-sklearn-1.5:1
