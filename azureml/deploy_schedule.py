@@ -22,11 +22,10 @@ ml_client = MLClient(
 print("Loading pipeline job...")
 
 pipeline_job = load_job(
-    source="azureml/pipeline.yml"
+    source="./azureml/pipeline.yml"
 )
-
 pipeline_job = ml_client.jobs.create_or_update(
-    pipeline_job 
+    pipeline_job
 )
 
 print("Creating schedule...")
