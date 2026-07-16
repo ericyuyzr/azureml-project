@@ -5,7 +5,7 @@ display_name: batch inference component
 
 type: command
 
-code: ./src
+code: ../src
 
 inputs:
   model:
