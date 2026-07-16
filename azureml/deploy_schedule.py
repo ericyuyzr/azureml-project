@@ -1,4 +1,5 @@
 from azure.ai.ml import MLClient
+from azure.ai.ml import load_job
 from azure.ai.ml.entities import (
     JobSchedule,
     RecurrenceTrigger,
@@ -20,8 +21,12 @@ ml_client = MLClient(
 
 print("Loading pipeline job...")
 
+pipeline_job = load_job(
+    source="azureml/pipeline.yml"
+)
+
 pipeline_job = ml_client.jobs.create_or_update(
-    "./azureml/batch-pipeline.yml"
+    pipeline_job 
 )
 
 print("Creating schedule...")
