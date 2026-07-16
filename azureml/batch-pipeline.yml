@@ -13,17 +13,10 @@ jobs:
 
     type: command
 
-    code: ./src
-
-    command: >
-      python score.py
-      --model-path ${{inputs.model}}
+    component: file:./inference-component.yml
 
     inputs:
 
       model:
         type: uri_folder
         path: azureml:my_production_model:1
-
-    environment:
-      azureml:AzureML-sklearn-1.5:1

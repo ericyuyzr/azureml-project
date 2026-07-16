@@ -1,0 +1,19 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+
+name: inference_component
+display_name: batch inference component
+
+type: command
+
+code: ./src
+
+inputs:
+  model:
+    type: uri_folder
+
+environment:
+  azureml:AzureML-sklearn-1.5:1
+
+command: >-
+  python score.py
+  --model-path ${{inputs.model}}
