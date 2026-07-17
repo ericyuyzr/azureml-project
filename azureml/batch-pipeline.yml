@@ -5,7 +5,7 @@ type: pipeline
 display_name: daily-batch-inference
 
 settings:
-  default_compute: azureml:aml-cluster
+  default_compute: azureml:aml-cluster-private
 
 jobs:
 
