@@ -20,3 +20,9 @@ jobs:
       model:
         type: custom_model
         path: azureml:my_production_model:1
+
+    outputs:
+
+      predictions:
+        type: uri_folder
+        path: azureml://datastores/workspaceblobstore/paths/inference-results/p16-model/
