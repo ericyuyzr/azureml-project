@@ -12,7 +12,7 @@ inputs:
     type: uri_folder
 
 environment:
-  azureml:AzureML-sklearn-1.5:1
+  azureml:AzureML-sklearn-1.0-ubuntu20.04-py38-cpu@latest
 
 command: >-
   python score.py
