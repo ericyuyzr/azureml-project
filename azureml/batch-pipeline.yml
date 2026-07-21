@@ -18,5 +18,5 @@ jobs:
     inputs:
 
       model:
-        type: mlflow_model
+        type: custom_model
         path: azureml:my_production_model:1

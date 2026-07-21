@@ -38,7 +38,7 @@ schedule = JobSchedule(
         interval=1,
         schedule=RecurrencePattern(
             hours=[10],
-            minutes=[0],
+            minutes=[40],
         ),
         time_zone="Pacific Standard Time",
     ),

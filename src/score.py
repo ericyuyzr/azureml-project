@@ -31,7 +31,7 @@ def main():
     # 1. Load model
     print(f"Loading model from: {args.model_path}")
 
-    model = joblib.load(args.model_path)
+    model = joblib.load(os.path.join(args.model_path, "model.pkl"))
 
     print("Model loaded successfully")
 
