@@ -22,19 +22,24 @@ def main():
         help="Path to input csv file"
     )
 
+    parser.add_argument(
+        "--output-path",
+        type=str,
+        required=True,
+        help="Directory to save prediction results"
+    )
+
     args = parser.parse_args()
 
-
     print("Starting batch inference...")
-
 
     # 1. Load model
     print(f"Loading model from: {args.model_path}")
 
-    model = joblib.load(os.path.join(args.model_path, "model.pkl"))
+    model_file = os.path.join(args.model_path, "model.pkl")
+    model = joblib.load(model_file)
 
     print("Model loaded successfully")
-
 
     # 2. Load inference data
     if args.input_path:
@@ -54,32 +59,25 @@ def main():
             }
         )
 
-
     print("Input data:")
     print(df)
 
-
     # Keep only features used during training
     X = df[["feature1", "feature2"]]
-
 
     # 3. Predict
     print("Running prediction...")
 
     predictions = model.predict(X)
 
-
     # 4. Save results
-    output_dir = "outputs"
-    os.makedirs(output_dir, exist_ok=True)
-
+    os.makedirs(args.output_path, exist_ok=True)
 
     results = df.copy()
     results["prediction"] = predictions
 
-
     output_file = os.path.join(
-        output_dir,
+        args.output_path,
         "predictions.csv"
     )
 
@@ -87,7 +85,6 @@ def main():
         output_file,
         index=False
     )
-
 
     print(f"Predictions saved to {output_file}")
 

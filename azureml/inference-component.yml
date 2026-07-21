@@ -17,3 +17,4 @@ environment:
 command: >-
   python score.py
   --model-path ${{inputs.model}}
+  --output-path ${{outputs.predictions}}
